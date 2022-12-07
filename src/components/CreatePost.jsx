@@ -29,9 +29,15 @@ const Button = styled.button`
 function CreatePost() {
   const [text, setText] = useState('');
   const [textIsSuicidal, setTextIsSuicidalText] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onPost = async () => {
+    setIsLoading(true);
     const response = await isSuicidal(text);
+    setIsLoading(false);
+
+    console.log(response);
+
     setTextIsSuicidalText(response);
   };
 
@@ -49,7 +55,9 @@ function CreatePost() {
 
       <Spacer />
 
-      <Button onClick={onPost}>Post</Button>
+      <Button onClick={onPost} isLoading={isLoading} disabled={isLoading}>
+        Post
+      </Button>
 
       {textIsSuicidal === 0 && 'This text has no dangerous content.'}
 
