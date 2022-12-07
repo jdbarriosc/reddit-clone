@@ -14,7 +14,7 @@ const Input = styled.textarea`
   }
   outline: none;
   resize: none;
-  min-height: 400px;
+  min-height: 200px;
   border: 1px solid #d4d8d9;
 `;
 

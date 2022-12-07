@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import isSuicidal from '../api/requests/isSuicidal';
 import TextArea from './inputs/TextArea';
 import Spacer from './Spacer';
 
@@ -27,10 +28,16 @@ const Button = styled.button`
 
 function CreatePost() {
   const [text, setText] = useState('');
+  const [textIsSuicidal, setTextIsSuicidalText] = useState();
 
-  const onPost = () => {
-    // todo
+  const onPost = async () => {
+    const response = await isSuicidal(text);
+    setTextIsSuicidalText(response);
   };
+
+  useEffect(() => {
+    setTextIsSuicidalText(undefined);
+  }, [text]);
 
   return (
     <Container>
@@ -43,6 +50,11 @@ function CreatePost() {
       <Spacer />
 
       <Button onClick={onPost}>Post</Button>
+
+      {textIsSuicidal === 0 && 'This text has no dangerous content.'}
+
+      {textIsSuicidal === 1 &&
+        'Be careful, this post has suicidal content that might be riskful for the community.'}
 
       <Spacer />
     </Container>
